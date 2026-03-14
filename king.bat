@@ -24,7 +24,7 @@ if "%1"=="copy" goto copy
 echo 未知命令: %1
 echo 输入 'king help' 查看帮助
 goto :eof
-
+pause
 :help
 echo ========================================
 echo            king 命令集 v2.0
@@ -41,7 +41,7 @@ echo king upload [文件名] [目标]  上传到 GitHub
 echo king copy [项目名]          搬运项目
 echo ========================================
 goto :eof
-
+pause
 :new
 :: 创建 .king 仓库结构
 if not exist .king (
@@ -55,7 +55,7 @@ if not exist .king (
     echo .king 仓库已存在
 )
 goto :eof
-
+pause
 :add
 :: 添加文件到缓冲区
 if "%2"=="" (
@@ -74,7 +74,7 @@ copy %2 .king\buffer\ > nul
 echo [%date% %time%] 添加文件 %2 >> .king\history\history.log
 echo 文件 %2 已添加到缓冲区
 goto :eof
-
+pause
 :load
 :: 从缓冲区加载到仓库区
 if "%2"=="" (
@@ -89,7 +89,7 @@ copy .king\buffer\%2 .king\repo\ > nul
 echo [%date% %time%] 加载文件 %2 到仓库 >> .king\history\history.log
 echo 文件 %2 已加载到仓库
 goto :eof
-
+pause
 :history
 :: 查看历史记录
 if not exist .king\history\history.log (
@@ -98,7 +98,7 @@ if not exist .king\history\history.log (
     type .king\history\history.log
 )
 goto :eof
-
+pause
 :status
 :: 查看缓冲区/仓库区状态
 echo ===== 缓冲区状态 =====
@@ -114,54 +114,48 @@ if exist .king\repo (
     echo 仓库区为空
 )
 goto :eof
-
+pause
 :download
-:: 模拟从 GitHub 下载
 if "%2"=="" (
     echo 请指定要下载的文件
     goto :eof
 )
-if not exist .king\repo (
-    mkdir .king\repo
-)
 echo 正在从 GitHub 下载 %2 ...
-echo 模拟下载: %2 已保存到 .king\repo\ > nul
-copy nul .king\repo\%2
-echo [%date% %time%] 下载文件 %2 >> .king\history\history.log
-echo 下载完成: %2
+git pull origin main
+if exist %2 (
+    echo 文件 %2 已下载
+) else (
+    echo 文件 %2 不存在于远程仓库
+)
 goto :eof
-
+pause
 :upload
-:: 模拟上传到 GitHub
 if "%2"=="" (
     echo 请指定要上传的文件
     goto :eof
 )
 if "%3"=="" (
-    echo 请指定目标仓库名
+    echo 请指定提交说明
     goto :eof
 )
-if not exist .king\repo\%2 (
-    echo 仓库中没有文件 %2
-    goto :eof
-)
-echo 正在上传 %2 到 %3 ...
-echo [%date% %time%] 上传文件 %2 到 %3 >> .king\history\history.log
-echo 上传完成: %2 ^-^> %3
+git add %2
+git commit -m "%3"
+git push origin main
+echo 上传完成
 goto :eof
-
+pause
 :copy
-:: 搬运整个项目
 if "%2"=="" (
-    echo 请指定要搬运的项目名
+    echo 请指定要克隆到的目标路径
     goto :eof
 )
-if not exist .king (
-    echo 没有 .king 仓库可搬运
-    goto :eof
+echo 正在克隆项目到 %2 ...
+git clone . %2
+if %errorlevel% equ 0 (
+    echo [%date% %time%] 克隆项目到 %2 >> .king\history\history.log
+    echo 项目已克隆到 %2
+) else (
+    echo 克隆失败，请检查目标路径或 Git 状态
 )
-echo 正在搬运项目 %2 ...
-xcopy .king %2_king_backup /E /I > nul
-echo [%date% %time%] 搬运项目 %2 >> .king\history\history.log
-echo 项目 %2 已搬运到 %2_king_backup
 goto :eof
+pause
