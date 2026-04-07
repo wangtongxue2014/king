@@ -1,109 +1,71 @@
-# 👑 king 命令集
 
-> Git 简单版 · 命令行工具 · 纯 CMD 实现
+# 👑 king – 你的文件版本管家
 
-## 📌 简介
+`king` 是一个用纯批处理脚本编写的极简版本控制系统。
 
-`king` 是我用纯批处理（`.bat`）写的**简易版本控制系统**，灵感来自 Git，但更简单、更轻量，完全在 CMD 环境下运行。
+## 🎯 为什么会有 king？
 
-**特点：**
-- ✅ 纯 CMD 实现，无需安装任何依赖
-- ✅ 绿色免安装，一个 `.bat` 文件搞定
-- ✅ 包含缓冲区、仓库区、历史记录等基本概念
-- ✅ 全程命令行操作（真男人用 CMD！）
+展示版本控制最朴素的样子：**备份、记录、还原**。
 
----
+## ✨ 核心功能
 
-## 🚀 安装方法
+- 一个 `.bat` 文件，零外部依赖
+- 缓冲区 + 仓库区两阶段管理
+- 历史记录追溯
+- 项目快照备份
+- 支持 GitHub 同步
 
-### 方法一：直接下载
-1. 点击本页面右上角的 **Code** → **Download ZIP**
-2. 解压，把 `king.bat` 放到 `C:\Windows\System32` 或任意 PATH 目录
-3. 打开 CMD，输入 `king help` 测试
+## 📦 快速开始
 
-### 方法二：Git 克隆
+### 1. 安装
+
+下载 `king.bat`，复制到 `C:\Windows\System32`
+
+### 2. 初始化
+
 ```bash
-git clone https://github.com/wangtongxue2014/king.git
-cd king
-# 然后把 king.bat 加入 PATH
-```
-
----
-
-## 📖 使用说明
-
-### 初始化仓库
-```cmd
+cd /d D:\my-project
 king new
 ```
-创建 `.king` 目录结构（buffer/repo/history）
 
-### 添加文件到缓冲区
-```cmd
-king add 文件名.txt
+### 3. 记录版本
+
+
+
 ```
-相当于 Git 的 `git add`
-
-### 加载到仓库区
-```cmd
-king load 文件名.txt
+king add story.txt
+king load story.txt
 ```
-从缓冲区提交到仓库（相当于 `git commit`）
 
-### 查看历史
-```cmd
+
+
+### 4. 查看状态和历史
+
+
+
+```
+king status
 king history
 ```
-显示所有操作记录
 
-### 查看状态
-```cmd
-king status
-```
-显示缓冲区/仓库区文件列表
 
-### 搬运整个项目
-```cmd
-king copy 项目名
-```
-备份整个 `.king` 仓库
 
----
+## 🛠️ 命令表
 
-## 🛠️ 命令速查表
+| 命令                          | 作用           |
+| :---------------------------- | :------------- |
+| `king new`                    | 创建仓库       |
+| `king add <文件名>`           | 添加到缓冲区   |
+| `king load <文件名>`          | 提交到仓库     |
+| `king status`                 | 查看状态       |
+| `king history`                | 查看历史       |
+| `king copy <路径>`            | 克隆项目       |
+| `king upload <文件名> <网址>` | 推送到 GitHub  |
+| `king download <文件名>`      | 从 GitHub 拉取 |
 
-| 命令 | 缩写 | 作用 |
-|------|------|------|
-| `king help` / `king ?` | - | 显示帮助 |
-| `king new` | - | 创建新仓库 |
-| `king add 文件名` | `add` | 添加到缓冲区 |
-| `king load 文件名` | `load` | 加载到仓库 |
-| `king history` | - | 查看历史 |
-| `king status` | - | 查看状态 |
-| `king copy 项目名` | - | 搬运项目 |
+## 🤝 开源
 
----
+MIT 许可证。本软件由 **王同学 (11岁)** 独立开发，不得声称自研。
 
-## 🔮 未来计划
+**全程 CMD · 无依赖 · 纯手工打造**
 
-我正在开发 **`king` 的 GUI 版本**，将包含：
-- ✅ 图形化界面（不再只有黑框）
-- ✅ 可视化版本树
-- ✅ 一键提交/回滚
-- ✅ 跨平台支持
-
-**项目将完全开源**，欢迎关注和贡献！
-
----
-
-## 📜 许可证
-
-MIT License © 2026 王同学
-
----
-
-## 🦞 真男人认证
-
-```
-全程 CMD 开发 · 无 GUI 依赖 · 纯手工打造
-```
